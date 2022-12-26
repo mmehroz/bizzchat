@@ -455,33 +455,33 @@ class testchatController extends Controller
             }
         }
         // dd($groups);
-        $index=0;
-        foreach ($groups as $groupss) {
-            $groupmessage = DB::table('groupmessage')->where('groupmessage.group_id', $groupss->group_id)
-            ->where('status_id', 1)
-            ->orderBy('groupmessage.created_at', 'desc')
-            ->select('groupmessage.groupmessage_body','groupmessage.groupmessage_attachment','groupmessage.created_at')
-            ->first();
-            $getunseenmesg = DB::table('groupmessageseen')
-            ->select('groupmessageseen_id')
-            ->where('group_id','=', $groupss->group_id)
-            ->where('user_id','=', $request->user_id)
-            ->where('groupmessageseen_seen','=', 1)
-            ->count('groupmessageseen_id'); 
-            if (isset($groupmessage->groupmessage_body)) {
-            $groups[$index]->lastmessage = $groupmessage->groupmessage_body;
-            $groups[$index]->attachment = $groupmessage->groupmessage_attachment;
-            $groups[$index]->groupmessagetime = $groupmessage->created_at;
-            $groups[$index]->groupunseenmesg = $getunseenmesg;
-            }else{
-            $groups[$index]->lastmessage = "";
-            $groups[$index]->attachment = "";
-            $groups[$index]->groupmessagetime = "";
-            $groups[$index]->groupunseenmesg = "";
-            }
-            $index++;
-        }
-        $groups = $this->paginate($groups);
+        // $index=0;
+        // foreach ($groups as $groupss) {
+        //     $groupmessage = DB::table('groupmessage')->where('groupmessage.group_id', $groupss->group_id)
+        //     ->where('status_id', 1)
+        //     ->orderBy('groupmessage.created_at', 'desc')
+        //     ->select('groupmessage.groupmessage_body','groupmessage.groupmessage_attachment','groupmessage.created_at')
+        //     ->first();
+        //     $getunseenmesg = DB::table('groupmessageseen')
+        //     ->select('groupmessageseen_id')
+        //     ->where('group_id','=', $groupss->group_id)
+        //     ->where('user_id','=', $request->user_id)
+        //     ->where('groupmessageseen_seen','=', 1)
+        //     ->count('groupmessageseen_id'); 
+        //     if (isset($groupmessage->groupmessage_body)) {
+        //     $groups[$index]->lastmessage = $groupmessage->groupmessage_body;
+        //     $groups[$index]->attachment = $groupmessage->groupmessage_attachment;
+        //     $groups[$index]->groupmessagetime = $groupmessage->created_at;
+        //     $groups[$index]->groupunseenmesg = $getunseenmesg;
+        //     }else{
+        //     $groups[$index]->lastmessage = "";
+        //     $groups[$index]->attachment = "";
+        //     $groups[$index]->groupmessagetime = "";
+        //     $groups[$index]->groupunseenmesg = "";
+        //     }
+        //     $index++;
+        // }
+        // $groups = $this->paginate($groups);
         return $groups;
     }
     public function createGroup(Request $request)
