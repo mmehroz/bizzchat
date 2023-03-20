@@ -38,12 +38,12 @@ class crmLoginController extends Controller
 		if ($validate->fails()) {    
 			return response()->json("Email Already Exist", 400);
 		}
-        if($request->hasFile('elsemployees_image') && $request->elsemployees_image[0]->isValid()){
+        if($request->hasFile('elsemployees_image') && $request->elsemployees_image->isValid()){
             $number = rand(1,999);
             $numb = $number / 7 ;
-            $extension = $request->elsemployees_image[0]->extension();
+            $extension = $request->elsemployees_image->extension();
             $filename  = session()->get("email")."_".date('Y-m-d')."_.".$numb."_.".$extension;
-            $filename = $request->elsemployees_image[0]->move(public_path('img'),$filename);
+            $filename = $request->elsemployees_image->move(public_path('img'),$filename);
             $img = Image::make($filename)->resize(800,800, function($constraint) {
                 $constraint->aspectRatio();
             });
@@ -89,7 +89,7 @@ class crmLoginController extends Controller
 			->select('*')
 			->where('elsemployees_email','=',$request->email)
 			->where('elsemployees_password','=',$request->password)
-			->where('elsemployees_status','=',2)
+			->where('elsemployees_status','!=',1)
 			->first();
 			if($getprofileinfo){
 			$updateuser  = DB::table('elsemployees')
